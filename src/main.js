@@ -6,6 +6,14 @@ import router from './router'
 
 Vue.config.productionTip = false
 
+router.beforeEach((to, from, next) => {
+  if (to.name) {
+    document.title = to.name
+  } else {
+    document.title = '测试'
+  }
+  next()
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
