@@ -9,7 +9,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in tableData" @click="chooseList(index, tableData)">
+        <tr v-for="(item, index) in tableData" @click="chooseList(index, tableData)" :class="{'red': currentLine === index}">
           <td>{{ item.name }}</td>
           <td>{{ item.spec }}</td>
           <td>{{ item.sccj }}</td>
@@ -120,6 +120,9 @@ export default {
       if (_this.currentLine * 1 + 1 > _this.tableData.length) {
         _this.currentLine = _this.tableData.length * 1 - 1
       }
+      if (_this.currentLine === -1) {
+        _this.currentLine = 0
+      }
       console.log(_this.currentLine)
       _this.chooseList(_this.currentLine, _this.tableData)
     }
@@ -134,7 +137,8 @@ export default {
   table {
     width: 500px;
   }
-  .highlight {
+  .red, table:first-child tr:hover {
     background: red;
+    color: #ffffff;
   }
 </style>
