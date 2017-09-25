@@ -32,6 +32,8 @@
         </tr>
       </tbody>
     </table>
+    <div id="editorElem" style="text-align:left"></div>
+   <button v-on:click="getContent">查看内容</button>
   </div>
 </template>
 <script>
@@ -56,10 +58,17 @@ export default {
       }],
       newArr: [],
       currentCol: -1,
-      currentLine: -1
+      currentLine: -1,
+      editorContent: ''
     }
   },
   mounted: function () {
+    let Edit = require('wangeditor')
+    var editor = new Edit('#editorElem')
+    editor.customConfig.onchange = (html) => {
+      this.editorContent = html
+    }
+    editor.create()
   },
   created: function () {
     let _this = this
@@ -89,6 +98,9 @@ export default {
     }
   },
   methods: {
+    getContent: function () {
+      console.log(this.editorContent)
+    },
     // 展示药品信息
     showTableData () {
     },

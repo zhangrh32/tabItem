@@ -3,9 +3,10 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+// import Edit from 'wangeditor'
 
 Vue.config.productionTip = false
-
+// Vue.component('Edit', Edit)
 router.beforeEach((to, from, next) => {
   if (to.name) {
     document.title = to.name
