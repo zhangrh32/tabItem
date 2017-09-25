@@ -33,10 +33,15 @@
       </tbody>
     </table>
     <div id="editorElem" style="text-align:left"></div>
-   <button v-on:click="getContent">查看内容</button>
+    <button v-on:click="getContent">查看内容</button>
+    <div style="width:100%;margin: 20px 0;height: 100px;"></div>
+    <vue-editor id="editor"
+      style="height: 300px;" v-model="htmlForEditor">
+    </vue-editor>
   </div>
 </template>
 <script>
+import { VueEditor } from 'vue2-editor'
 export default {
   data () {
     return {
@@ -59,7 +64,8 @@ export default {
       newArr: [],
       currentCol: -1,
       currentLine: -1,
-      editorContent: ''
+      editorContent: '',
+      htmlForEditor: ''
     }
   },
   mounted: function () {
@@ -137,8 +143,32 @@ export default {
       }
       console.log(_this.currentLine)
       _this.chooseList(_this.currentLine, _this.tableData)
-    }
+    },
     // -->
+    handleImageAdded: function (file, Editor, cursorLocation) {
+      // An example of using FormData
+      // NOTE: Your key could be different such as:
+      // formData.append('file', file)
+
+      var formData = new FormData()
+      formData.append('image', file)
+
+      this.$ajax({
+        url: 'https://fakeapi.yoursite.com/images',
+        method: 'POST',
+        data: formData
+      })
+      .then((result) => {
+        let url = result.data.url // Get url from response
+        Editor.insertEmbed(cursorLocation, 'image', url)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
+  },
+  components: {
+    VueEditor
   }
 }
 </script>
